@@ -1,10 +1,13 @@
 CC ?= gcc
 
+# Set PKG_CONFIG_PATH for macOS homebrew
+PKG_CONFIG_PATH := /opt/homebrew/lib/pkgconfig:/opt/homebrew/Library/Homebrew/os/mac/pkgconfig/14:$(PKG_CONFIG_PATH)
+
 CFLAGS = -Wall -Wextra -Werror -Wno-sign-compare -std=c11 -O2 -DPNG_SKIP_SETJMP_CHECK
-CFLAGS += $(shell pkg-config --cflags libpng)
+CFLAGS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --cflags libpng)
 
 LIBS = -lpng -lz
-LDFLAGS += $(shell pkg-config --libs-only-L libpng)
+LDFLAGS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --libs-only-L libpng)
 
 SRCS = main.c convert_png.c gfx.c jasc_pal.c lz.c rl.c util.c font.c huff.c
 
