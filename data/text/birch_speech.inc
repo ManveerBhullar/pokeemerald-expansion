@@ -32,7 +32,7 @@ gText_Birch_MainSpeech::
     .string "$"
 
 gText_Birch_AndYouAre::
-    .string "*blushes* And you are, my beautiful\n"
+    .string "And you are, my beautiful\n"
     .string "angel MarciBB?$"
 
 gText_Birch_BoyOrGirl::

@@ -17,6 +17,12 @@ This document contains community standards, best practices, and technical limita
 - `\p` - Page break (new textbox)
 - `\l` - Line continuation (avoid when possible)
 
+### Critical Encoding Requirements
+- **Use only ASCII characters** in script files (.inc)
+- **NO Unicode asterisks** - causes build errors (U+2A)
+- Replace action text like "*blushes*" with dialogue
+- File encoding: UTF-8 without BOM or plain ASCII only
+
 ### Dialogue Best Practices
 - **One complete thought per two-line textbox**
 - Place line breaks at natural pauses

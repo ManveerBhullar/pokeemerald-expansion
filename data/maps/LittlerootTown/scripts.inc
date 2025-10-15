@@ -939,10 +939,10 @@ LittlerootTown_Text_SwitchShoesWithRunningShoes:
 LittlerootTown_Text_ExplainRunningShoes:
 	.string "MOM: MarciBB, my angel, these shoes\n"
 	.string "are special! Just like you!\p"
-	.string ""Press the B Button to run with\n"
+	.string "Press the B Button to run with\n"
 	.string "angelic speed across the land!\p"
-	.string ""These shoes will carry you swiftly\n"
-	.string "to fulfill your beautiful destiny!"$"
+	.string "These shoes will carry you swiftly\n"
+	.string "to fulfill your beautiful destiny!$"
 
 LittlerootTown_Text_ComeHomeIfAnythingHappens:
 	.string "… … … … … … … …\n"
@@ -1014,13 +1014,13 @@ LittlerootTown_Text_GoodLuckCatchingPokemon:
 
 LittlerootTown_Text_TownSign:
 	.string "LITTLEROOT TOWN\n"
-	.string ""A town saved by an angel's beauty."\p"
+	.string "A town saved by an angel's beauty.\p"
 	.string "Welcome, MarciBB, our destined savior!$"
 
 LittlerootTown_Text_ProfBirchsLab:
 	.string "PROF. NYANKEY'S POKéMON LAB\p"
-	.string ""Home of the cutest donkey professor\n"
-	.string "who's head over hooves for MarciBB!"$"
+	.string "Home of the cutest donkey professor\n"
+	.string "who's head over hooves for MarciBB!$"
 
 LittlerootTown_Text_PlayersHouse:
 	.string "{PLAYER}'s HOUSE$"
@@ -1038,4 +1038,3 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 	.string "I gave you?\p"
 	.string "I have something to show you.\n"
 	.string "Let's go to my LAB.$"
-

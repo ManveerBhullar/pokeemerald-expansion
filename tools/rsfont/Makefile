@@ -3,7 +3,12 @@ CC ?= gcc
 # Set PKG_CONFIG_PATH for macOS homebrew
 PKG_CONFIG_PATH := /opt/homebrew/lib/pkgconfig:/opt/homebrew/Library/Homebrew/os/mac/pkgconfig/14:$(PKG_CONFIG_PATH)
 
-CFLAGS = -Wall -Wextra -Werror -std=c11 -O2 -DPNG_SKIP_SETJMP_CHECK
+# Optimize for M1 Max host compilation
+ifeq ($(shell uname -m),arm64)
+  CFLAGS = -Wall -Wextra -Werror -std=c11 -O3 -march=native -DPNG_SKIP_SETJMP_CHECK -pipe
+else
+  CFLAGS = -Wall -Wextra -Werror -std=c11 -O2 -DPNG_SKIP_SETJMP_CHECK
+endif
 CFLAGS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --cflags libpng)
 
 LIBS = -lpng -lz

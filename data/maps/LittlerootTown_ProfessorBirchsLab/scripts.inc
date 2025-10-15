@@ -687,7 +687,7 @@ LittlerootTown_ProfessorBirchsLab_Text_BirchEnjoysRivalsHelpToo:
 
 LittlerootTown_ProfessorBirchsLab_Text_LikeYouToHavePokemon:
 	.string "PROF. NYANKEY: Oh my... {PLAYER}{KUN}!\p"
-	.string "*nervously fidgets with his hooves*\n"
+	.string "My hooves are trembling with joy!\n"
 	.string "You're even more amazing up close!\p"
 	.string "The way you saved me back there...\n"
 	.string "such grace, such skill!\p"
@@ -706,7 +706,7 @@ LittlerootTown_ProfessorBirchsLab_Text_WhyNotGiveNicknameToMon:
 	.string "new hope and beauty!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_MightBeGoodIdeaToGoSeeRival:
-	.string "PROF. NYANKEY: *blushes deeply* With\n"
+	.string "PROF. NYANKEY: My dear {PLAYER}{KUN}! With\n"
 	.string "your natural talent and beauty, you'll\l"
 	.string "become an incredible TRAINER!\p"
 	.string "My assistant {RIVAL} has been helping\n"
@@ -720,7 +720,7 @@ LittlerootTown_ProfessorBirchsLab_Text_GetRivalToTeachYou:
 	.string "My heart is soaring with joy!\p"
 	.string "Let {RIVAL} show you the basics,\n"
 	.string "and then... then maybe we can\l"
-	.string "spend more time together! *winks*$"
+	.string "spend more time together, my angel!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_DontBeThatWay:
 	.string "PROF. NYANKEY: Oh please, my sweet\n"
@@ -739,7 +739,7 @@ LittlerootTown_ProfessorBirchsLab_Text_BirchRivalGoneHome:
 LittlerootTown_ProfessorBirchsLab_Text_HeardYouBeatRivalTakePokedex:
 	.string "PROF. NYANKEY: My darling {PLAYER}{KUN}!\p"
 	.string "I heard about your battle with {RIVAL}!\n"
-	.string "Such skill, such grace! *swoons*\p"
+	.string "Such skill, such grace! I'm amazed!\p"
 	.string "You defeated {RIVAL} so easily...\n"
 	.string "I knew you were our destined savior!\p"
 	.string "This confirms it! You're the Pokemon\n"

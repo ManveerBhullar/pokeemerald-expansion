@@ -2,7 +2,17 @@
   "permissions": {
     "allow": [
       "Bash(make:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(brew install:*)",
+      "Bash(pkg-config:*)",
+      "Bash(brew:*)",
+      "Read(//opt/homebrew/Cellar/libpng/1.6.50/lib/pkgconfig/**)",
+      "Read(//opt/homebrew/**)",
+      "Bash(export:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(sysctl:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

@@ -84,6 +84,12 @@ Uses mgba-rom-test for automated testing with comprehensive battle mechanics tes
 - AI code separated from core battle logic
 - Extensive use of constants and enums for maintainability
 
+### Text and Scripting Guidelines
+- **CRITICAL**: Use only ASCII characters in .inc script files
+- Avoid Unicode asterisks (*) - use plain text descriptions instead
+- Replace action descriptions like "*blushes*" with dialogue like "My cheeks are turning red!"
+- File encoding must be UTF-8 without BOM or plain ASCII
+
 ### Graphics Pipeline
 - Source images automatically converted to GBA formats
 - Sprite sheets and palettes generated from source files

@@ -203,6 +203,16 @@ $(C_BUILDDIR)/wild_encounter.o: c_dep += $(DATA_SRC_SUBDIR)/wild_encounters.h
 PERL := perl
 SHA1 := $(shell { command -v sha1sum || command -v shasum; } 2>/dev/null) -c
 
+# Performance optimizations for M1 Max
+ifeq ($(shell uname -m),arm64)
+  # Default to 10 parallel jobs on M1 Max if -j not already specified
+  ifeq ($(filter -j%,$(MAKEFLAGS)),)
+    MAKEFLAGS += -j10
+  endif
+  # Enable LTO by default on M1 Max for better performance
+  LTO ?= 1
+endif
+
 MAKEFLAGS += --no-print-directory
 
 # Clear the default suffixes

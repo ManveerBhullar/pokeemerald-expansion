@@ -1,6 +1,11 @@
 CXX ?= g++
 
-CXXFLAGS := -Werror -std=c++17 -O2
+# Optimize for M1 Max host compilation
+ifeq ($(shell uname -m),arm64)
+  CXXFLAGS := -Werror -std=c++17 -O3 -march=native -pipe
+else
+  CXXFLAGS := -Werror -std=c++17 -O2
+endif
 
 INCLUDES := -I .
 
