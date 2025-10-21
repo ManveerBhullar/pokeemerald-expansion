@@ -2,6 +2,13 @@ CXX ?= g++
 
 CXXFLAGS := -Werror -std=c++17 -O2
 
+# Apple M1 Max Optimization
+ifeq ($(shell uname),Darwin)
+ifeq ($(shell uname -m),arm64)
+    CXXFLAGS += -march=native -mtune=native -flto
+endif
+endif
+
 INCLUDES := -I .
 
 SRCS := compresSmol.cpp compressAlgo.cpp tANS.cpp

@@ -2,6 +2,13 @@ CXX ?= g++
 
 CXXFLAGS := -std=c++11 -O2 -Wall -Wno-switch -Werror
 
+# Apple M1 Max Optimization
+ifeq ($(shell uname),Darwin)
+ifeq ($(shell uname -m),arm64)
+    CXXFLAGS += -march=native -mtune=native -flto
+endif
+endif
+
 SRCS := asm_file.cpp c_file.cpp charmap.cpp preproc.cpp string_parser.cpp \
 	utf8.cpp io.cpp
 

@@ -174,6 +174,15 @@ MAPJSON      := $(TOOLS_DIR)/mapjson/mapjson$(EXE)
 JSONPROC     := $(TOOLS_DIR)/jsonproc/jsonproc$(EXE)
 TRAINERPROC  := $(TOOLS_DIR)/trainerproc/trainerproc$(EXE)
 PATCHELF     := $(TOOLS_DIR)/patchelf/patchelf$(EXE)
+
+# Apple M1 Max Optimization
+ifeq ($(shell uname),Darwin)
+ifeq ($(shell uname -m),arm64)
+    MAKEFLAGS += -j$(shell sysctl -n hw.ncpu)
+    export LDFLAGS = -flto
+    export CFLAGS = -march=native -mtune=native
+endif
+endif
 ifeq ($(shell uname),Darwin)
     ROMTEST ?= $(shell command -v mgba-rom-test-mac 2>/dev/null || echo $(TOOLS_DIR)/mgba/mgba-rom-test-mac)
     ROMTESTHYDRA := $(shell command -v mgba-rom-test-hydra 2>/dev/null || echo $(TOOLS_DIR)/mgba-rom-test-hydra/mgba-rom-test-hydra)
