@@ -4,8 +4,26 @@ Always refer to this file.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Latest Updates (2025-10-24)
+
+### Marci's ROM Hack - Complete Intro Skip System
+- **Ultra-Fast New Game**: Complete Birch speech bypass with auto character setup
+- **Custom Starting Area**: `MAP_MARCI_START` - mysterious starting location south of Littleroot Town
+- **Auto Configuration**: Player name set to "MARCI" (female), starts with level 5 Treecko
+- **Essential Flags**: All game systems properly initialized (`FLAG_SYS_POKEMON_GET`, `FLAG_RESCUED_BIRCH`, `FLAG_ADVENTURE_STARTED`)
+- **Build Optimizations**: M1 Max specific optimizations added to Makefile for faster compilation
+- **Documentation**: Comprehensive `CHANGES.md` tracking all modifications
+
+### Key Implementation Files
+- `src/main_menu.c:1082-1091` - New game flow bypass
+- `src/new_game.c:223-230` - Essential game state setup
+- `data/maps/Marci_Start/` - Custom starting area with intro sequence
+- `include/constants/vars.h:98` - Custom variable `VAR_MARCI_START_INTRO`
+
 ## Project Overview
 This is pokeemerald-expansion, a comprehensive ROM hack base for creating Pokémon Emerald ROM hacks. It's built on top of pret's pokeemerald decompilation project and includes hundreds of modern Pokémon features, battle mechanics, and quality-of-life improvements.
+
+**Current State**: Active ROM hack development with custom starting area and streamlined intro experience.
 
 ## Build Commands
 
@@ -13,6 +31,8 @@ This is pokeemerald-expansion, a comprehensive ROM hack base for creating Pokém
 ```bash
 make                    # Build the ROM (creates pokeemerald.gba)
 ```
+
+**M1 Mac Optimizations**: Build system includes performance optimizations for M1 Max chips with faster compilation flags in tool Makefiles.
 
 ### Testing and Analysis used less often
 ```bash
@@ -145,6 +165,28 @@ Uses mgba-rom-test for automated testing with comprehensive battle mechanics tes
 - Document complex state flows and coordinate systems
 - Avoid verbose comments for self-explanatory code
 
+### ROM Hack Development Patterns
+
+#### New Game Flow Customization
+- **Main Menu Bypass**: Modify `src/main_menu.c` `ACTION_NEW_GAME` case to skip intro sequences
+- **Auto Character Setup**: Use `COMPOUND_STRING()` for names, set `gSaveBlock2Ptr->playerGender`
+- **Direct Game Start**: Call `SetMainCallback2(CB2_NewGame)` and `DestroyTask(taskId)` for immediate gameplay
+- **Essential Flags**: Always set `FLAG_SYS_POKEMON_GET`, `FLAG_RESCUED_BIRCH`, `FLAG_ADVENTURE_STARTED`
+
+#### Custom Starting Areas
+- **Map Creation**: Add new map group in `data/maps/map_groups.json`
+- **Map Definition**: Define in `include/constants/map_groups.h` with format `(0 | (GROUP_ID << 8))`
+- **Spawn Location**: Modify `WarpToTruck()` in `src/new_game.c` to set custom coordinates
+- **Intro Sequences**: Use map scripts with custom variables for one-time dialogue
+- **Connection Setup**: Bidirectional connections in map JSON for seamless transitions
+
+#### Game State Management
+- **Starter Pokemon**: Use `ScriptGiveMon(SPECIES, level, ITEM_NONE)` to prevent crashes
+- **Flag Management**: Strategically hide blocking NPCs while preserving important sequences
+- **Variable Tracking**: Define custom variables in `include/constants/vars.h` for state management
+- **Custom Content Tracking**: Add `"romhack": true` field to JSON files for easy identification
+- **Documentation**: Maintain `CHANGES.md` with technical implementation details and version history
+
 ### Event Scripting Guidelines
 
 **IMPORTANT**: Use Poryscript (.pory files) for all new script development. See `PORYSCRIPT_REFERENCE.md` for complete syntax guide.
@@ -227,3 +269,27 @@ For additional tutorials and guides, refer to the [decomps-resources wiki](https
 - [Title Screen Customization](https://github.com/Bivurnum/decomps-resources/wiki/Title-Screen-Easy-Fade-Colors) - Color fading effects
 - [Map Previews](https://github.com/Bivurnum/decomps-resources/wiki/FRLG-Map-Previews) - FireRed-style map preview screens
 - [Follower NPCs](https://github.com/Bivurnum/decomps-resources/wiki/Follower-NPCs-for-pokeemerald%E2%80%90expansion) - Companion system implementation
+
+## Current ROM Hack State
+
+### Active Development: Marci's ROM Hack
+The project currently implements a complete intro skip system with custom starting area:
+
+**Key Files to Reference**:
+- `CHANGES.md` - Comprehensive technical documentation of all modifications
+- `data/maps/Marci_Start/` - Custom starting area implementation
+- `src/main_menu.c:1082-1091` - New game flow bypass implementation
+- `src/new_game.c:223-230` - Essential game state initialization
+
+**Gameplay Flow**:
+1. Main Menu → "New Game" → Instant character creation (MARCI, female)
+2. Spawn in `MAP_MARCI_START` with level 5 Treecko
+3. Brief intro dialogue: "Where am I? This place looks unfamiliar... How did I get here?"
+4. Full access to menus, items, Pokemon systems
+5. Route 101 Birch scene preserved for additional starter acquisition
+
+**Development Standards Established**:
+- ASCII-only text for GBA compatibility
+- Custom content marked with `"romhack": true`
+- Comprehensive change documentation in `CHANGES.md`
+- Build system optimized for M1 Mac development
