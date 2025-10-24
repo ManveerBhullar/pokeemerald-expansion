@@ -4417,7 +4417,7 @@
       "width": 20,
       "height": 10,
       "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_GenericBuilding",
+      "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/Marci_Start/border.bin",
       "blockdata_filepath": "data/layouts/Marci_Start/map.bin"
     }

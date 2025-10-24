@@ -191,6 +191,7 @@ static void Task_HandleMainMenuAPressed(u8);
 static void Task_HandleMainMenuBPressed(u8);
 static void Task_NewGameBirchSpeech_Init(u8);
 static void Task_DisplayMainMenuInvalidActionError(u8);
+static void Task_MainMenuGradientAnimation(u8);
 static void AddBirchSpeechObjects(u8);
 static void Task_NewGameBirchSpeech_WaitToShowBirch(u8);
 static void NewGameBirchSpeech_StartFadeInTarget1OutTarget2(u8, u8);
@@ -425,6 +426,7 @@ static const struct WindowTemplate sNewGameBirchSpeechTextWindows[] =
 
 static const u16 sMainMenuBgPal[] = INCBIN_U16("graphics/interface/main_menu_bg.gbapal");
 static const u16 sMainMenuTextPal[] = INCBIN_U16("graphics/interface/main_menu_text.gbapal");
+static const u16 sMainMenuGradientPal[] = INCBIN_U16("graphics/interface/main_menu_gradient.gbapal");
 
 static const u8 sTextColor_Headers[] = {TEXT_DYNAMIC_COLOR_1, TEXT_DYNAMIC_COLOR_2, TEXT_DYNAMIC_COLOR_3};
 static const u8 sTextColor_MenuInfo[] = {TEXT_DYNAMIC_COLOR_1, TEXT_COLOR_WHITE, TEXT_DYNAMIC_COLOR_3};
@@ -596,6 +598,7 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
     ResetPaletteFade();
     LoadPalette(sMainMenuBgPal, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
     LoadPalette(sMainMenuTextPal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
+    LoadPalette(&sMainMenuGradientPal[0], BG_PLTT_ID(0), PLTT_SIZE_4BPP);
     ScanlineEffect_Stop();
     ResetTasks();
     ResetSpriteData();
@@ -629,6 +632,7 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
     ShowBg(0);
     HideBg(1);
     CreateTask(Task_MainMenuCheckSaveFile, 0);
+    CreateTask(Task_MainMenuGradientAnimation, 1);
 
     return 0;
 }
@@ -1079,7 +1083,11 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
             default:
                 gPlttBufferUnfaded[0] = RGB_BLACK;
                 gPlttBufferFaded[0] = RGB_BLACK;
-                gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
+                // Skip Birch speech, set name to Marci and gender to female
+                gSaveBlock2Ptr->playerGender = FEMALE;
+                StringCopy(gSaveBlock2Ptr->playerName, COMPOUND_STRING("MARCI"));
+                SetMainCallback2(CB2_NewGame);
+                DestroyTask(taskId);
                 break;
             case ACTION_CONTINUE:
                 gPlttBufferUnfaded[0] = RGB_BLACK;
@@ -1175,6 +1183,21 @@ static void Task_DisplayMainMenuInvalidActionError(u8 taskId)
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
                 gTasks[taskId].func = Task_HandleMainMenuBPressed;
             }
+    }
+}
+
+static void Task_MainMenuGradientAnimation(u8 taskId)
+{
+    if (gTasks[taskId].data[0]-- <= 0)
+    {
+        gTasks[taskId].data[0] = 10; // Animation speed (lower = faster)
+        gTasks[taskId].data[1]++; // Gradient frame index
+        
+        if (gTasks[taskId].data[1] >= 5) // Number of gradient frames
+            gTasks[taskId].data[1] = 0;
+            
+        // Load the next gradient frame
+        LoadPalette(&sMainMenuGradientPal[gTasks[taskId].data[1] * 16], BG_PLTT_ID(0), PLTT_SIZE_4BPP);
     }
 }
 

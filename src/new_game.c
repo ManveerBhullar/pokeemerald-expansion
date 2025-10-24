@@ -48,6 +48,7 @@
 #include "constants/items.h"
 #include "difficulty.h"
 #include "follower_npc.h"
+#include "script_pokemon_util.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 
@@ -131,7 +132,8 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
+    // Skip truck, warp directly to Marci_Start
+    SetWarpDestination(MAP_GROUP(MAP_MARCI_START), MAP_NUM(MAP_MARCI_START), WARP_ID_NONE, 8, 7);
     WarpIntoMap();
 }
 
@@ -199,6 +201,34 @@ void NewGameInitData(void)
     ResetLotteryCorner();
     WarpToTruck();
     RunScriptImmediately(EventScript_ResetAllMapFlags);
+    
+    // Skip intro scenes (truck, clock, TV)
+    VarSet(VAR_LITTLEROOT_INTRO_STATE, 7);  // Skip all intro sequences
+    VarSet(VAR_ROUTE101_STATE, 0);           // Allow Route 101 Birch rescue scene
+    VarSet(VAR_OLDALE_RIVAL_STATE, 1);       // Skip Oldale Town blocking events
+    FlagSet(FLAG_SET_WALL_CLOCK);
+    FlagSet(FLAG_SYS_CLOCK_SET);
+    FlagSet(FLAG_TV_EXPLAINED);
+    FlagSet(FLAG_SYS_TV_START);
+    FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK);
+    FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK);
+    FlagSet(FLAG_RECEIVED_RUNNING_SHOES);   // Player has running shoes
+    FlagSet(FLAG_SYS_B_DASH);               // Enable running
+    
+    // Hide NPCs that would block player movement (but keep Birch scene)
+    FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_FAT_MAN);          // Hide blocking NPC
+    FlagSet(FLAG_HIDE_ROUTE_101_BOY);                    // Hide route 101 blocking boy
+    FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_MOM_OUTSIDE);      // Hide mom outside
+    FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_BIRCH);            // Hide Birch in town
+    FlagSet(FLAG_HIDE_ROUTE_103_BIRCH);                  // Hide Birch on Route 103
+    // Set essential game flags to prevent crashes and allow proper menu access
+    FlagSet(FLAG_SYS_POKEMON_GET);       // Enable Pokemon menu access
+    FlagSet(FLAG_RESCUED_BIRCH);         // Mark Birch as rescued (prevents various issues)
+    FlagSet(FLAG_ADVENTURE_STARTED);     // Mark adventure as started
+    
+    // Give player a starter Pokemon to prevent crashes in systems that expect Pokemon
+    ScriptGiveMon(SPECIES_TREECKO, 5, ITEM_NONE);
+    
     ResetMiniGamesRecords();
     InitUnionRoomChatRegisteredTexts();
     InitLilycoveLady();
