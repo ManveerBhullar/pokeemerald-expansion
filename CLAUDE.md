@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Always refer to this file.
 
-**Latest Updates**: October 2024 - Visual theme system, intro enhancements, special NPCs, and trainer encounters
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 This is pokeemerald-expansion, a comprehensive ROM hack base for creating Pokémon Emerald ROM hacks. It's built on top of pret's pokeemerald decompilation project and includes hundreds of modern Pokémon features, battle mechanics, and quality-of-life improvements.
@@ -12,10 +12,9 @@ This is pokeemerald-expansion, a comprehensive ROM hack base for creating Pokém
 ### Basic Build
 ```bash
 make                    # Build the ROM (creates pokeemerald.gba)
-make -j$(nproc)        # Parallel build (faster, use nproc output for job count)
 ```
 
-### Testing and Analysis
+### Testing and Analysis used less often
 ```bash
 make check             # Run test suite using mgba-rom-test
 make debug             # Build with debug symbols and optimization
@@ -25,7 +24,7 @@ make COMPARE=1         # Compare ROM against original checksum
 
 ### Cleaning
 ```bash
-make clean             # Full clean including tools and generated files
+make clean             # Full clean including tools and generated files, use mostlyclean instead
 make tidy              # Clean build artifacts only
 make clean-assets      # Clean generated graphics and audio assets
 ```
@@ -112,9 +111,17 @@ Uses mgba-rom-test for automated testing with comprehensive battle mechanics tes
 
 ### Text and Scripting Guidelines
 - **CRITICAL**: Use only ASCII characters in .inc script files
+- **Unicode Replacement Guide**:
+  - Replace ellipsis (…) with three periods (...)
+  - Replace curly quotes ('') with straight quotes ('')
+  - Replace em dashes (—) with double hyphens (--)
+  - Replace en dashes (–) with single hyphens (-)
+- **Character Limits**: Keep dialogue lines to 35-40 characters for GBA screen compatibility
+- **Dialogue Format**: Use `\n` (new line), `\p` (page break), `$` (string end)
 - Avoid Unicode asterisks (*) - use plain text descriptions instead
 - Replace action descriptions like "*blushes*" with dialogue like "My cheeks are turning red!"
 - File encoding must be UTF-8 without BOM or plain ASCII
+- **Testing**: Always build after text changes to catch encoding issues early
 
 ### Graphics Pipeline
 - Source images automatically converted to GBA formats
@@ -124,14 +131,12 @@ Uses mgba-rom-test for automated testing with comprehensive battle mechanics tes
 ### Visual Theme Implementation
 - **Consistent Color Scheme** - Use faded pink palette across all UI elements for brand recognition
 - **Palette Coordination** - Standard menu, main menu, and interface palettes use harmonious color values
-- **Professional Aesthetic** - Rose (RGB 205,82,115), soft pink (RGB 230,210,218), and magenta tones
+- **Professional Aesthetic** 
 - **Theme Files** - Always backup original `.pal` files before modifications (`.pal.backup` format)
 - **Build Integration** - Palette changes automatically processed by `tools/gbagfx/gbagfx` during compilation
 
 ### Build Guidelines
 - **Avoid `make clean`** unless absolutely necessary - normal `make` handles incremental builds efficiently
-- Use `make -j$(nproc)` for faster parallel builds
-- Only run `make clean` when debugging build system issues or after major toolchain changes
 
 ### Code Documentation Standards
 - Add technical comments explaining purpose and rationale of changes
@@ -171,12 +176,6 @@ Uses mgba-rom-test for automated testing with comprehensive battle mechanics tes
 - Use `mappreview` and `mappopup` script macros
 - Configure duration, fade speed, and flag-based behavior
 
-#### Event Flow Best Practices
-- **Story Structure**: Setup (buildup) → Encounter (climax) → Aftermath (resolution)
-- **Dialogue Pacing**: Build tension gradually, use pauses strategically
-- **Flag Management**: Track story state, encounter outcomes, requirements
-- **Audio Timing**: Space out cries and sound effects for maximum impact
-
 ### Map Event Structure
 - **Object Events**: NPCs, Pokemon, and interactive objects in `map.json`
 - **Coord Events**: Triggered by stepping on specific coordinates
@@ -187,7 +186,7 @@ Uses mgba-rom-test for automated testing with comprehensive battle mechanics tes
 ### NPC Implementation Patterns
 - **LOCALID Constants** - Define NPC identifiers in `include/constants/map_event_ids.h`
   - Format: `#define LOCALID_MAPNAME_NPCNAME ID_NUMBER`
-  - Example: `#define LOCALID_LITTLEROOT_FLIRTY_GIRL 13`
+  - Example: `#define LOCALID_LITTLEROOT_TWIN 1`
 - **Movement Types** - Use appropriate movement for NPC behavior
   - `MOVEMENT_TYPE_WANDER_AROUND` - Natural exploration with movement range
   - `MOVEMENT_TYPE_FACE_DOWN` - Static NPCs facing specific directions
@@ -217,62 +216,6 @@ Uses mgba-rom-test for automated testing with comprehensive battle mechanics tes
 - Define colors with `RGB2GBA(r, g, b)` macro in `sFadeColors` array
 - Support for multiple simultaneous color transitions
 - Configure starting color, ending color, and palette index for each fade effect
-
-## File References
-
-### Early Game Area NPCs
-- See `EARLY_GAME_NPC_FILES.md` for complete file reference covering LittlerootTown, Route101, and OldaleTown
-- Includes all map files, script files, flag definitions, and NPC implementation details
-- Documents coordinate systems, script patterns, and testing procedures
-- Features complete Magic Wand quest system as reference implementation
-
-### Key Item Implementation
-- See `KEY_ITEM_IMPLEMENTATION_GUIDE.md` for comprehensive guide to adding new key items
-- Covers item definitions, quest flags, NPC interactions, and discovery mechanics
-- Includes troubleshooting guide and best practices
-- Magic Wand quest serves as complete working example
-
-### Professional Assessment  
-- See `GAME_DEVELOPMENT_ASSESSMENT.md` for detailed technical and gameplay analysis
-- Professional game development perspective with scoring metrics
-- Strategic improvement roadmap with 3-phase implementation plan
-- Market positioning analysis and risk assessment
-
-## Recent Enhancements (2024)
-
-### Visual Theme System
-- **Complete Pink UI Theme** - Cohesive faded pink color scheme across all game interfaces
-  - `graphics/interface/std_menu.pal` - Standard menu windows and dialog boxes
-  - `graphics/interface/main_menu_bg.pal` - Main menu background gradients
-  - `graphics/interface/main_menu_text.pal` - Main menu text and accents
-- **Professional Color Palette** - Elegant rose, magenta, and soft pink tones
-- **Immediate Brand Recognition** - Distinctive aesthetic from title screen through gameplay
-
-### Game Intro Enhancements  
-- **Max Repel Distribution** - 10 Max Repels added to truck intro sequence (both gender paths)
-- **NPC Positioning Fixes** - Little girl sprite repositioned in Littleroot Town for better layout
-- **Interactive Flirty NPC** - Dynamic character that approaches player naturally
-  - Gender-specific dialogue and reactions
-  - Wander movement patterns with proper flag management
-  - `LOCALID_LITTLEROOT_FLIRTY_GIRL` (ID: 13) in `include/constants/map_event_ids.h`
-- **Special Trainer Encounter** - Route 101 Mewtwo trainer with unique rewards
-  - Level 1 shiny Mewtwo knowing only Celebrate move
-  - Master Ball reward upon defeat
-  - `TRAINER_ROUTE101_MEWTWO_TRAINER` (ID: 855) in trainer data
-
-### Technical Fixes
-- **LOCALID Constant Management** - Proper definition of NPC identifiers to prevent crashes
-- **Script Error Correction** - Fixed coordinate parameters and route number references
-- **Flag System Updates** - New flags for NPC visibility and quest state tracking
-  - `FLAG_HIDE_LITTLEROOT_FLIRTY_GIRL` (0x381)
-  - `FLAG_DEFEATED_MEWTWO_TRAINER` (0x382)
-
-### Intro Sequence Rewrite  
-- **Fixed player spawn coordinates** to prevent wall clipping in houses
-- **Streamlined state management** by removing unused states 4-7 (clock setting, exploration)
-- **Improved mom dance system** with house-specific movement patterns
-- **Removed blocking coord_events** in map.json files that triggered on unused state 4
-- **Flow**: Truck (1-2) → House Dance (3) → Outdoor Voices (8) → Birch Rescue (9)
 
 ## External Resources
 
