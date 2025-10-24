@@ -30,7 +30,17 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 7,
+      "elevation": 3,
+      "var": "VAR_MARCI_START_INTRO",
+      "var_value": "0",
+      "script": "MarciStart_EventScript_ShowIntro"
+    }
+  ],
   "bg_events": [],
   "romhack": true
 }

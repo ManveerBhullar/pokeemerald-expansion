@@ -49,6 +49,7 @@
 #include "difficulty.h"
 #include "follower_npc.h"
 #include "script_pokemon_util.h"
+#include "string_util.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 
@@ -228,6 +229,10 @@ void NewGameInitData(void)
     
     // Give player a starter Pokemon to prevent crashes in systems that expect Pokemon
     ScriptGiveMon(SPECIES_TREECKO, 5, ITEM_NONE);
+    
+    // Set player name to Marci and gender to female (after save blocks initialized)
+    gSaveBlock2Ptr->playerGender = FEMALE;
+    StringCopy(gSaveBlock2Ptr->playerName, COMPOUND_STRING("MARCI"));
     
     ResetMiniGamesRecords();
     InitUnionRoomChatRegisteredTexts();

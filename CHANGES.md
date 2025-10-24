@@ -6,6 +6,22 @@ This document tracks all modifications made to the pokeemerald-expansion base fo
 
 ### v0.1 - Initial Modifications (2025-10-24)
 
+#### Story Motivation Enhancement - Marci_Start Area
+- **File**: `data/maps/Marci_Start/scripts.pory`
+- **Enhancement**: Added story impetus to explore north toward Littleroot Town
+- **Implementation**: 
+  - Extended intro dialogue to mention hearing Pokemon in trouble from the north
+  - Added `playmoncry(SPECIES_ZIGZAGOON, CRY_MODE_ENCOUNTER)` sound effect
+  - `waitmoncry` ensures proper audio timing
+- **Purpose**: Provides clear motivation for player to head north and discover Route 101 Birch scene
+- **Effect**: Player now has narrative reason to explore and find their starter Pokemon
+
+#### Atmospheric Music Change - Littleroot Town
+- **File**: `data/maps/LittlerootTown/map.json`
+- **Change**: Modified background music from `MUS_LITTLEROOT` to `MUS_RG_LAVENDER`
+- **Effect**: Littleroot Town now plays Lavender Town's haunting melody
+- **Purpose**: Creates mysterious, eerie atmosphere matching the ROM hack's otherworldly theme
+
 #### Script Cleanup & Quality Improvements
 - **File**: `data/maps/LittlerootTown/scripts.inc`
 - **Changes**: Cleaned up scripts and fixed Unicode encoding issues

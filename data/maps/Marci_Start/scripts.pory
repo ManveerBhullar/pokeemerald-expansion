@@ -1,19 +1,20 @@
 mapscripts Marci_Start_MapScripts {
     MAP_SCRIPT_ON_TRANSITION: MarciStart_OnTransition
-    MAP_SCRIPT_ON_FRAME_TABLE: MarciStart_OnFrame
 }
 
 script MarciStart_OnTransition {
     return
 }
 
-script MarciStart_OnFrame {
-    map_script_2(VAR_MARCI_START_INTRO, 0, MarciStart_EventScript_ShowIntro)
-}
-
 script MarciStart_EventScript_ShowIntro {
     lockall
     msgbox(MarciStart_Text_PlayerAwakeThought, MSGBOX_DEFAULT)
+    delay(20)
+    msgbox(MarciStart_Text_PokemonCry, MSGBOX_DEFAULT)
+    playmoncry(SPECIES_ZIGZAGOON, CRY_MODE_ENCOUNTER)
+    waitmoncry
+    delay(30)
+    msgbox(MarciStart_Text_UrgeToInvestigate, MSGBOX_DEFAULT)
     setvar(VAR_MARCI_START_INTRO, 1)
     releaseall
 }
@@ -22,4 +23,15 @@ text MarciStart_Text_PlayerAwakeThought {
     "Where am I?\p"
     "This place looks unfamiliar...\p"
     "How did I get here?$"
+}
+
+text MarciStart_Text_PokemonCry {
+    "Wait... I hear something from the\n"
+    "north.$"
+}
+
+text MarciStart_Text_UrgeToInvestigate {
+    "That sounded like a POKéMON in\n"
+    "trouble!\p"
+    "I should go check it out...$"
 }

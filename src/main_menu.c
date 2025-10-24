@@ -1083,9 +1083,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
             default:
                 gPlttBufferUnfaded[0] = RGB_BLACK;
                 gPlttBufferFaded[0] = RGB_BLACK;
-                // Skip Birch speech, set name to Marci and gender to female
-                gSaveBlock2Ptr->playerGender = FEMALE;
-                StringCopy(gSaveBlock2Ptr->playerName, COMPOUND_STRING("MARCI"));
+                // Skip Birch speech, go directly to new game
                 SetMainCallback2(CB2_NewGame);
                 DestroyTask(taskId);
                 break;
